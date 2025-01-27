@@ -1,4 +1,5 @@
-{%- if .Values.hpaDeployment.baseline.hpa.enabled %}
+{{- if .Values.hpaDeployment.enabled }}
+  {{- if .Values.hpaDeployment.baseline.hpa.enabled }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -19,8 +20,8 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.hpaDeployment.baseline.hpa.targetCPUUtilizationPercentage }}
-{%- endif %}
-{%- if .Values.hpaDeployment.canary.hpa.enabled %}
+  {{- end }}
+  {{- if .Values.hpaDeployment.canary.hpa.enabled }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -41,4 +42,5 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.hpaDeployment.canary.hpa.targetCPUUtilizationPercentage }}
-{%- endif %}
+  {{- end }}
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.hpaDeployment.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,4 +41,4 @@ spec:
         - name: {{ .Values.hpaDeployment.canary.name }}
           image: "{{ .Values.hpaDeployment.canary.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
           imagePullPolicy: {{ .Values.hpaDeployment.canary.image.pullPolicy }}
----
+{{- end }}

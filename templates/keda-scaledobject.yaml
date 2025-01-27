@@ -1,0 +1,44 @@
+{{- if .Values.kedaDeployment.enabled }}
+  {{- if .Values.kedaDeployment.baseline.hpa.enabled }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Values.kedaDeployment.baseline.name }}-scaledobject
+spec:
+  scaleTargetRef:
+    name: {{ .Values.kedaDeployment.baseline.name }}
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: {{ .Values.kedaDeployment.kedaTrigger.type }}
+      metadata:
+        serverAddress: {{ .Values.kedaDeployment.kedaTrigger.metadata.serverAddress }}
+        metricName: {{ .Values.kedaDeployment.kedaTrigger.metadata.metricName }}
+        threshold: "{{ .Values.kedaDeployment.kedaTrigger.metadata.threshold }}"
+        query: "{{ .Values.kedaDeployment.kedaTrigger.metadata.query }}"
+  {{- end }}
+  {{- if .Values.hpaDeployment.canary.hpa.enabled }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Values.kedaDeployment.canary.name }}-scaledobject
+spec:
+  scaleTargetRef:
+    name: {{ .Values.kedaDeployment.canary.name }}
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: {{ .Values.kedaDeployment.kedaTrigger.type }}
+      metadata:
+        serverAddress: {{ .Values.kedaDeployment.kedaTrigger.metadata.serverAddress }}
+        metricName: {{ .Values.kedaDeployment.kedaTrigger.metadata.metricName }}
+        threshold: "{{ .Values.kedaDeployment.kedaTrigger.metadata.threshold }}"
+        query: "{{ .Values.kedaDeployment.kedaTrigger.metadata.query }}"
+  {{- end }}
+{{- end }}

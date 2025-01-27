@@ -1,0 +1,44 @@
+{{- if .Values.kedaDeployment.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.kedaDeployment.baseline.name }}
+  labels:
+    app: {{ .Values.kedaDeployment.labels.app }}
+spec:
+  replicas: {{ .Values.baseline.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.kedaDeployment.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.kedaDeployment.labels.app }}
+    spec:
+      containers:
+        - name: {{ .Values.kedaDeployment.baseline.name }}
+          image: "{{ .Values.kedaDeployment.baseline.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.kedaDeployment.baseline.image.pullPolicy }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.kedaDeployment.canary.name }}
+  labels:
+    app: {{ .Values.kedaDeployment.labels.app }}
+spec:
+  replicas: {{ .Values.kedaDeployment.canary.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.kedaDeployment.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.kedaDeployment.labels.app }}
+    spec:
+      containers:
+        - name: {{ .Values.kedaDeployment.canary.name }}
+          image: "{{ .Values.kedaDeployment.canary.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.kedaDeployment.canary.image.pullPolicy }}
+{{- end }}

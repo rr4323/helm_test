@@ -1,11 +1,10 @@
 replicaCount: 1
 
 kedaDeployment:
-  name: keda-app
-  image:
-    repository: nginx
-    tag: "latest"
-    pullPolicy: IfNotPresent
+  enabled: false
+  serviceName: keda-app
+  labels: 
+    app: keda-app
   kedaTrigger:
     type: prometheus
     metadata:
@@ -13,8 +12,23 @@ kedaDeployment:
       metricName: http_requests_total
       threshold: "100"
       query: sum(rate(http_requests_total[5m]))
+  baseline:
+    name: keda-app-baseline
+    replicaCount: 1
+    image:
+      repository: httpd
+      tag: "latest"
+      pullPolicy: IfNotPresent
+  canary:
+    name: keda-app-canary
+    replicaCount: 1
+    image:
+      repository: httpd
+      tag: "latest"
+      pullPolicy: IfNotPresent
 
 hpaDeployment:
+  enabled: true
   serviceName: hpa-app
   labels: 
     app: hpa-app
@@ -42,4 +56,3 @@ hpaDeployment:
       minReplicas: 1
       maxReplicas: 5
       targetCPUUtilizationPercentage: 80
-
