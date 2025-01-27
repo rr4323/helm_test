@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.kedaDeployment.name }}
+  labels:
+    app: {{ .Values.kedaDeployment.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.kedaDeployment.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.kedaDeployment.name }}
+    spec:
+      containers:
+        - name: {{ .Values.kedaDeployment.name }}
+          image: "{{ .Values.kedaDeployment.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.kedaDeployment.image.pullPolicy }}

@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Values.kedaDeployment.name }}-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: {{ .Values.kedaDeployment.name }}
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: {{ .Values.kedaDeployment.kedaTrigger.type }}
+      metadata:
+        serverAddress: {{ .Values.kedaDeployment.kedaTrigger.metadata.serverAddress }}
+        metricName: {{ .Values.kedaDeployment.kedaTrigger.metadata.metricName }}
+        threshold: "{{ .Values.kedaDeployment.kedaTrigger.metadata.threshold }}"
+        query: "{{ .Values.kedaDeployment.kedaTrigger.metadata.query }}"
