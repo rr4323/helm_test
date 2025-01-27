@@ -1,0 +1,6 @@
+apiVersion: v2
+name: my-helm-chart
+description: A Helm chart with two deployments, one scaled by KEDA and one by HPA.
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies: []

@@ -1,0 +1,27 @@
+replicaCount: 1
+
+kedaDeployment:
+  name: keda-app
+  image:
+    repository: nginx
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  kedaTrigger:
+    type: prometheus
+    metadata:
+      serverAddress: http://prometheus-server.default.svc.cluster.local
+      metricName: http_requests_total
+      threshold: "100"
+      query: sum(rate(http_requests_total[5m]))
+
+hpaDeployment:
+  name: hpa-app
+  image:
+    repository: httpd
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  hpa:
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+

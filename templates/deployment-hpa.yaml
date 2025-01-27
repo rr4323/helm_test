@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.hpaDeployment.name }}
+  labels:
+    app: {{ .Values.hpaDeployment.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.hpaDeployment.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hpaDeployment.name }}
+    spec:
+      containers:
+        - name: {{ .Values.hpaDeployment.name }}
+          image: "{{ .Values.hpaDeployment.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.hpaDeployment.image.pullPolicy }}
