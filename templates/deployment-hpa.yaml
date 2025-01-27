@@ -1,20 +1,43 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.hpaDeployment.name }}
+  name: {{ .Values.hpaDeployment.baseline.name }}
   labels:
-    app: {{ .Values.hpaDeployment.name }}
+    app: {{ .Values.hpaDeployment.labels.app }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.baseline.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.hpaDeployment.name }}
+      app: {{ .Values.hpaDeployment.labels.app }}
   template:
     metadata:
       labels:
-        app: {{ .Values.hpaDeployment.name }}
+        app: {{ .Values.hpaDeployment.labels.app }}
     spec:
       containers:
-        - name: {{ .Values.hpaDeployment.name }}
-          image: "{{ .Values.hpaDeployment.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
-          imagePullPolicy: {{ .Values.hpaDeployment.image.pullPolicy }}
+        - name: {{ .Values.hpaDeployment.baseline.name }}
+          image: "{{ .Values.hpaDeployment.baseline.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.hpaDeployment.baseline.image.pullPolicy }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.hpaDeployment.canary.name }}
+  labels:
+    app: {{ .Values.hpaDeployment.labels.app }}
+spec:
+  replicas: {{ .Values.hpaDeployment.canary.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.hpaDeployment.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hpaDeployment.labels.app }}
+    spec:
+      containers:
+        - name: {{ .Values.hpaDeployment.canary.name }}
+          image: "{{ .Values.hpaDeployment.canary.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
+          imagePullPolicy: {{ .Values.hpaDeployment.canary.image.pullPolicy }}
+---

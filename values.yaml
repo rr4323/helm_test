@@ -15,13 +15,31 @@ kedaDeployment:
       query: sum(rate(http_requests_total[5m]))
 
 hpaDeployment:
-  name: hpa-app
-  image:
-    repository: httpd
-    tag: "latest"
-    pullPolicy: IfNotPresent
-  hpa:
-    minReplicas: 1
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 80
+  serviceName: hpa-app
+  labels: 
+    app: hpa-app
+  baseline:
+    name: hpa-app-baseline
+    replicaCount: 1
+    image:
+      repository: httpd
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    hpa:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 80
+  canary:
+    name: hpa-app-canary
+    replicaCount: 1
+    image:
+      repository: httpd
+      tag: "latest"
+      pullPolicy: IfNotPresent
+    hpa:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 80
 

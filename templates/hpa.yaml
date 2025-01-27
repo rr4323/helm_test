@@ -1,19 +1,44 @@
+{%- if .Values.hpaDeployment.baseline.hpa.enabled %}
+---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Values.hpaDeployment.name }}-hpa
+  name: {{ .Values.hpaDeployment.baseline.name }}-hpa
   namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.hpaDeployment.name }}
-  minReplicas: {{ .Values.hpaDeployment.hpa.minReplicas }}
-  maxReplicas: {{ .Values.hpaDeployment.hpa.maxReplicas }}
+    name: {{ .Values.hpaDeployment.baseline.name }}
+  minReplicas: {{ .Values.hpaDeployment.baseline.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpaDeployment.baseline.hpa.maxReplicas }}
   metrics:
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .Values.hpaDeployment.hpa.targetCPUUtilizationPercentage }}
+          averageUtilization: {{ .Values.hpaDeployment.baseline.hpa.targetCPUUtilizationPercentage }}
+{%- endif %}
+{%- if .Values.hpaDeployment.canary.hpa.enabled %}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.hpaDeployment.canary.name }}-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.hpaDeployment.canary.name }}
+  minReplicas: {{ .Values.hpaDeployment.canary.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpaDeployment.canary.hpa.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.hpaDeployment.canary.hpa.targetCPUUtilizationPercentage }}
+{%- endif %}
