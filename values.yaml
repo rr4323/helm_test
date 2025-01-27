@@ -33,7 +33,7 @@ hpaDeployment:
   labels: 
     app: hpa-app
   baseline:
-    name: keda-app-baseline
+    name: hpa-app-baseline
     replicaCount: 1
     image:
       repository: httpd
@@ -45,7 +45,7 @@ hpaDeployment:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 80
   canary:
-    name: keda-app-canary
+    name: hpa-app-canary
     replicaCount: 1
     image:
       repository: httpd
