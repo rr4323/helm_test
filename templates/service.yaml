@@ -1,23 +1,32 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.kedaDeployment.name }}
-spec:
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  selector:
-    app: {{ .Values.kedaDeployment.name }}
+{{- if .Values.kedaDeployment.enabled }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.hpaDeployment.name }}
+  name: {{ .Values.kedaDeployment.serviceName }}
+  labels:
+    app: {{ .Values.kedaDeployment.labels.app }}
 spec:
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
   selector:
-    app: {{ .Values.hpaDeployment.name }}
+    app: {{ .Values.kedaDeployment.labels.app }}
+{{- end }}
+{{- if .Values.hpaDeployment.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.hpaDeployment.serviceName }}
+  labels:
+    app: {{ .Values.hpaDeployment.labels.app }}
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: {{ .Values.hpaDeployment.labels.app }}
+{{- end }}
