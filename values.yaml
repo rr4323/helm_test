@@ -42,6 +42,7 @@ hpaDeployment:
   serviceName: hpa-app
   labels: 
     app: hpa-app
+    testing-hpa: now
   baseline:
     name: hpa-app-baseline
     replicaCount: 1
