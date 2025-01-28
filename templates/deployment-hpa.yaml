@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.hpaDeployment.baseline.name }}
-          image: "{{ .Values.hpaDeployment.baseline.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
+          image: "{{ .Values.hpaDeployment.baseline.image.repository }}:{{ .Values.hpaDeployment.baseline.image.tag }}"
           imagePullPolicy: {{ .Values.hpaDeployment.baseline.image.pullPolicy }}
 ---
 apiVersion: apps/v1
@@ -39,6 +39,6 @@ spec:
     spec:
       containers:
         - name: {{ .Values.hpaDeployment.canary.name }}
-          image: "{{ .Values.hpaDeployment.canary.image.repository }}:{{ .Values.hpaDeployment.image.tag }}"
+          image: "{{ .Values.hpaDeployment.canary.image.repository }}:{{ .Values.hpaDeployment.canary.image.tag }}"
           imagePullPolicy: {{ .Values.hpaDeployment.canary.image.pullPolicy }}
 {{- end }}
