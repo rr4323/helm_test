@@ -16,7 +16,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.hpaDeployment.labels.app }}
+        {{- range $key, $val := .Values.hpaDeployment.labels }}
+        {{ $key }}: {{ $val }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.hpaDeployment.baseline.name }}
