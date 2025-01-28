@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Values.hpaDeployment.labels.app }}
 spec:
-  replicas: {{ .Values.baseline.replicaCount }}
+  replicas: {{ .Values.hpaDeployment.baseline.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Values.hpaDeployment.labels.app }}
