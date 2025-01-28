@@ -39,6 +39,6 @@ spec:
     spec:
       containers:
         - name: {{ .Values.kedaDeployment.canary.name }}
-          image: "{{ .Values.kedaDeployment.canary.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          image: "{{ .Values.kedaDeployment.canary.image.repository }}:{{ .Values.kedaDeployment.canary.image.tag }}"
           imagePullPolicy: {{ .Values.kedaDeployment.canary.image.pullPolicy }}
 {{- end }}
