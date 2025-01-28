@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Values.kedaDeployment.labels.app }}
 spec:
-  replicas: {{ .Values.baseline.replicaCount }}
+  replicas: {{ .Values.kedaDeployment.baseline.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Values.kedaDeployment.labels.app }}
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.kedaDeployment.baseline.name }}
-          image: "{{ .Values.kedaDeployment.baseline.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          image: "{{ .Values.kedaDeployment.baseline.image.repository }}:{{ .Values.kedaDeployment.baseline.image.tag }}"
           imagePullPolicy: {{ .Values.kedaDeployment.baseline.image.pullPolicy }}
 ---
 apiVersion: apps/v1
