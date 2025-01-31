@@ -1,5 +1,5 @@
 replicaCount: 1
-
+ 
 kedaDeployment:
   enabled: false
   serviceName: keda-app
