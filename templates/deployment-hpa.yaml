@@ -24,29 +24,5 @@ spec:
         - name: {{ .Values.hpaDeployment.baseline.name }}
           image: "{{ .Values.hpaDeployment.baseline.image.repository }}:{{ .Values.hpaDeployment.baseline.image.tag }}"
           imagePullPolicy: {{ .Values.hpaDeployment.baseline.image.pullPolicy }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Values.hpaDeployment.canary.name }}
-  labels:
-    {{- range $key, $val := .Values.hpaDeployment.labels }}
-    {{ $key }}: {{ $val }}
-    {{- end }}
-spec:
-  replicas: {{ .Values.hpaDeployment.canary.replicaCount }}
-  selector:
-    matchLabels:
-      app: {{ .Values.hpaDeployment.labels.app }}
-  template:
-    metadata:
-      labels:
-        {{- range $key, $val := .Values.hpaDeployment.labels }}
-        {{ $key }}: {{ $val }}
-        {{- end }}
-    spec:
-      containers:
-        - name: {{ .Values.hpaDeployment.canary.name }}
-          image: "{{ .Values.hpaDeployment.canary.image.repository }}:{{ .Values.hpaDeployment.canary.image.tag }}"
-          imagePullPolicy: {{ .Values.hpaDeployment.canary.image.pullPolicy }}
+
 {{- end }}
