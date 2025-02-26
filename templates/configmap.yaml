@@ -9,6 +9,7 @@ metadata:
 data:
   APP_ENV: "production"
   LOG_LEVEL: "info"
+  DB_HOST: "localhost"
 
   # JSON configuration stored as a ConfigMap key
   config.json: |-
