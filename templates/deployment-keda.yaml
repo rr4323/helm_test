@@ -5,20 +5,24 @@ kind: Deployment
 metadata:
   name: {{ .Values.kedaDeployment.baseline.name }}
   labels:
-    app: {{ .Values.kedaDeployment.labels.app }}
+    {{- range $key, $val := .Values.kedaDeployment.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
 spec:
-  replicas: {{ .Values.baseline.replicaCount }}
+  replicas: {{ .Values.kedaDeployment.baseline.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Values.kedaDeployment.labels.app }}
   template:
     metadata:
       labels:
-        app: {{ .Values.kedaDeployment.labels.app }}
+        {{- range $key, $val := .Values.kedaDeployment.labels }}
+        {{ $key }}: {{ $val }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.kedaDeployment.baseline.name }}
-          image: "{{ .Values.kedaDeployment.baseline.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          image: "{{ .Values.kedaDeployment.baseline.image.repository }}:{{ .Values.kedaDeployment.baseline.image.tag }}"
           imagePullPolicy: {{ .Values.kedaDeployment.baseline.image.pullPolicy }}
 ---
 apiVersion: apps/v1
@@ -26,7 +30,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.kedaDeployment.canary.name }}
   labels:
-    app: {{ .Values.kedaDeployment.labels.app }}
+    {{- range $key, $val := .Values.kedaDeployment.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
 spec:
   replicas: {{ .Values.kedaDeployment.canary.replicaCount }}
   selector:
@@ -35,10 +41,12 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.kedaDeployment.labels.app }}
+        {{- range $key, $val := .Values.kedaDeployment.labels }}
+        {{ $key }}: {{ $val }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.kedaDeployment.canary.name }}
-          image: "{{ .Values.kedaDeployment.canary.image.repository }}:{{ .Values.kedaDeployment.image.tag }}"
+          image: "{{ .Values.kedaDeployment.canary.image.repository }}:{{ .Values.kedaDeployment.canary.image.tag }}"
           imagePullPolicy: {{ .Values.kedaDeployment.canary.image.pullPolicy }}
 {{- end }}

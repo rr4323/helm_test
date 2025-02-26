@@ -5,7 +5,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.hpaDeployment.baseline.name }}
   labels:
-    app: {{ .Values.hpaDeployment.labels.app }}
+    {{- range $key, $val := .Values.hpaDeployment.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
 spec:
   replicas: {{ .Values.hpaDeployment.baseline.replicaCount }}
   selector:
@@ -14,7 +16,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.hpaDeployment.labels.app }}
+        {{- range $key, $val := .Values.hpaDeployment.labels }}
+        {{ $key }}: {{ $val }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.hpaDeployment.baseline.name }}
@@ -26,7 +30,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.hpaDeployment.canary.name }}
   labels:
-    app: {{ .Values.hpaDeployment.labels.app }}
+    {{- range $key, $val := .Values.hpaDeployment.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
 spec:
   replicas: {{ .Values.hpaDeployment.canary.replicaCount }}
   selector:
@@ -35,7 +41,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.hpaDeployment.labels.app }}
+        {{- range $key, $val := .Values.hpaDeployment.labels }}
+        {{ $key }}: {{ $val }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.hpaDeployment.canary.name }}
