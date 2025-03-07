@@ -10,6 +10,7 @@ data:
   APP_ENV: "production"
   LOG_LEVEL: "info"
   DB_HOST: "localhost"
+  DOST: "yes"
 
   # JSON configuration stored as a ConfigMap key
   config.json: |-
